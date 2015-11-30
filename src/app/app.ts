@@ -1,4 +1,4 @@
-import {bootstrap, Component, FORM_DIRECTIVES, NgFor} from 'angular2/angular2';
+import {bootstrap, Component, FORM_DIRECTIVES, NgFor, NgIf} from 'angular2/angular2';
 
 class Hero {
     id: number;
@@ -7,29 +7,67 @@ class Hero {
 
 @Component({
     selector: 'my-app',
-    directives: [FORM_DIRECTIVES, NgFor],
+    directives: [FORM_DIRECTIVES, NgFor, NgIf],
     template: `
         <h1>{{title}}</h1>
         <h2>My Heros</h2>
         <ul class="heroes">
-            <li *ng-for="#hero of heroes">
+            <li *ng-for="#hero of heroes" (click)="onSelect(hero)">
                 <span class="badge">{{hero.id}}</span> {{hero.name}}
             </li>
         </ul>
-        <h2>{{hero.name}} details!</h2>
-        <div><label>id: </label>{{hero.id}}</div>
-        <div>
-            <label>name: </label>
-            <div><input [(ng-model)]="hero.name" placeholder="name"></div>
-        `
+        <div *ng-if="selectedHero">
+            <h2>{{hero.name}} details!</h2>
+            <div><label>id: </label>{{hero.id}}</div>
+            <div>
+                <label>name: </label>
+                <div><input [(ng-model)]="selectedHero.name" placeholder="name"></div>
+            </div>
+        </div>
+        `,
+    styles: [`
+        .heroes {
+            list-style-type: none;
+            margin-left: 1em;
+            padding: 0;
+            width: 10em;
+        }
+        .heroes li {
+            cursor: pointer;
+            position: relative;
+            left: 0;
+            transition: all 0.2s ease;
+        }
+        .heroes li:hover {
+            color: #369;
+            background-color: #EEE;
+            left: .2em;
+        }
+        .heroes .badge {
+            font-size: small;
+            color: white;
+            padding: 0.1em 0.7em;
+            background-color: #369;
+            line-height: 1em;
+            position: relative;
+            left: -1px;
+            top: -1px;
+        }
+        .selected {
+            background-color: #EEE;
+            color: #369;
+        }
+    
+    `],
 })
 class AppComponent {
     public title = 'Tour of Heros';
-    public hero: Hero = {
-        id: 1,
-        name: 'Windstorm'
-    };
+    public selectedHero: Hero;
     public heroes = HEROES;
+
+    onSelect(hero: Hero) {
+        this.selectedHero = hero;
+    }
 }
 
 bootstrap(AppComponent);
