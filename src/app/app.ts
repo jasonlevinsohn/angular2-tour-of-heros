@@ -1,4 +1,5 @@
-import {bootstrap, Component, FORM_DIRECTIVES, NgFor, NgIf} from 'angular2/angular2';
+import {bootstrap, Component, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
+import {TodoInput} from "./todoInput";
 
 class Hero {
     id: number;
@@ -7,23 +8,27 @@ class Hero {
 
 @Component({
     selector: 'my-app',
-    directives: [FORM_DIRECTIVES, NgFor, NgIf],
+    directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, TodoInput],
     template: `
         <h1>{{title}}</h1>
         <h2>My Heros</h2>
         <ul class="heroes">
-            <li *ng-for="#hero of heroes" (click)="onSelect(hero)">
+            <li *ng-for="#hero of heroes"
+                (click)="onSelect(hero)"
+                [ng-class]="getSelectedClass(hero)">
                 <span class="badge">{{hero.id}}</span> {{hero.name}}
             </li>
         </ul>
         <div *ng-if="selectedHero">
-            <h2>{{hero.name}} details!</h2>
-            <div><label>id: </label>{{hero.id}}</div>
+            <h2>{{selectedHero.name}} details!</h2>
+            <div><label>id: </label>{{selectedHero.id}}</div>
             <div>
                 <label>name: </label>
                 <div><input [(ng-model)]="selectedHero.name" placeholder="name"></div>
             </div>
         </div>
+        <todo-input></todo-input>
+
         `,
     styles: [`
         .heroes {
@@ -66,7 +71,12 @@ class AppComponent {
     public heroes = HEROES;
 
     onSelect(hero: Hero) {
+        console.log('Hero: ', hero);
         this.selectedHero = hero;
+    }
+
+    getSelectedClass(hero: Hero) {
+        return {'selected': hero === this.selectedHero};
     }
 }
 
