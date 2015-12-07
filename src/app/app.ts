@@ -1,5 +1,6 @@
 import {bootstrap, Component, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
 import {TodoInput} from "./todoInput";
+import {TodoService} from "./todoService";
 
 class Hero {
     id: number;
@@ -79,8 +80,8 @@ class AppComponent {
         return {'selected': hero === this.selectedHero};
     }
 }
-
-bootstrap(AppComponent);
+// 2nd parameter defines the things we want to pass into our entire application.
+bootstrap(AppComponent, [TodoService]);
 
 var HEROES: Hero[] = [
   { 'id': 11, 'name': 'Mr. Nice' },
