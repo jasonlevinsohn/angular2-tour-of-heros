@@ -1,6 +1,7 @@
 import {bootstrap, Component, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
 import {TodoInput} from "./todoInput";
 import {TodoService} from "./todoService";
+import {TodoList} from "./todoList";
 
 class Hero {
     id: number;
@@ -9,7 +10,7 @@ class Hero {
 
 @Component({
     selector: 'my-app',
-    directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, TodoInput],
+    directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, TodoInput, TodoList],
     template: `
         <h1>{{title}}</h1>
         <h2>My Heros</h2>
@@ -29,6 +30,7 @@ class Hero {
             </div>
         </div>
         <todo-input></todo-input>
+        <todo-list></todo-list>
 
         `,
     styles: [`
